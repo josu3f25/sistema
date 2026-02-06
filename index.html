@@ -11,9 +11,13 @@
 
     <style>
       #resultado {
-        font-weight:  bold;
-        font-size:  1.2rem;
+        font-weight: bold;
+        font-size: 1.2rem;
         text-align: center;
+      }
+      .loading {
+        color: #6c757d;
+        font-style: italic;
       }
     </style>
 
@@ -25,7 +29,7 @@
         <img class="d-block mx-auto mb-2" src="LogotipoV2-Simple.png" alt="" width="80" height="80">
         <h1 class="display-5 fw-bold">Celsius a Fahrenheit</h1>
         <div class="col-lg-6 mx-auto">
-          <p class="lead mb-0">Conversi&oacute;n de grados celsius a fahrenheit utilizando Tensorflow.js</p>
+          <p class="lead mb-0">Conversión de grados celsius a fahrenheit utilizando Tensorflow.js</p>
           <p class="lead mb-4">El detalle puedes verlo en <a href="https://youtu.be/LRckH4U5ls8">este video</a></p>
         </div>
       </div>
@@ -38,13 +42,13 @@
             <form>
               <div class="mb-3">
                 <label for="celsius" class="form-label">Grados Celsius: <span id="lbl-celsius">0</span></label>
-                <input type="range" class="form-range" min="-200" max="200" id="celsius" oninput="cambiarCelsius();">
+                <input type="range" class="form-range" min="-200" max="200" id="celsius" oninput="cambiarCelsius();" disabled>
                 <div class="form-text">Desliza para cambiar el valor de grados celsius</div>
               </div>
               <div class="mb-3">
                 <label for="celsius" class="form-label">Resultado</label>
-                <div id="resultado">
-                  0 grados celsius son 32 grados fahrenheit
+                <div id="resultado" class="loading">
+                  Cargando modelo...
                 </div>
               </div>
             </form>
@@ -58,7 +62,7 @@
         <div class="py-5">
           <h1 class="display-5 fw-bold text-white">Ringa Tech</h1>
           <div class="col-lg-6 mx-auto">
-            <p class="fs-5 mb-4">Revisa <a href="https://youtube.com/RingaTech">mi canal</a> para videos de inteligencia artificial, programaci&oacute;n, etc.</p>
+            <p class="fs-5 mb-4">Revisa <a href="https://youtube.com/RingaTech">mi canal</a> para videos de inteligencia artificial, programación, etc.</p>
           </div>
         </div>
       </div>
@@ -68,7 +72,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.18.0/dist/tf.min.js"></script>
 
     <script type="text/javascript">
 
@@ -76,21 +80,50 @@
 
       //Cargar modelo
       (async () => {
-          console.log("Cargando modelo...");
-          modelo = await tf.loadLayersModel("model.json");
-          console.log("Modelo cargado...");
+          try {
+            console.log("Cargando modelo...");
+            document.getElementById("resultado").innerHTML = "Cargando modelo, por favor espera...";
+            document.getElementById("resultado").className = "loading";
+            
+            // Cargar el modelo desde los archivos model.json y group1-shard1of1.bin
+            modelo = await tf.loadLayersModel("./model.json");
+            
+            console.log("Modelo cargado exitosamente");
+            document.getElementById("resultado").innerHTML = "0 grados celsius son 32 grados fahrenheit";
+            document.getElementById("resultado").className = "";
+            document.getElementById("celsius").disabled = false;
+            
+            // Calcular el valor inicial
+            cambiarCelsius();
+          } catch (error) {
+            console.error("Error al cargar el modelo:", error);
+            document.getElementById("resultado").innerHTML = "Error al cargar el modelo. Verifica que los archivos model.json y group1-shard1of1.bin estén en la misma carpeta.";
+            document.getElementById("resultado").className = "loading";
+          }
       })();
 
       function cambiarCelsius() {
         var celsius = document.getElementById("celsius").value;
-        document.getElementById("lbl-celsius").innerHTML=celsius;
+        document.getElementById("lbl-celsius").innerHTML = celsius;
+        
         if (modelo != null) {
-          var tensor = tf.tensor1d([parseInt(celsius)]);
-          var prediccion = modelo.predict(tensor).dataSync();
-          prediccion = Math.round(prediccion, 1);
-          document.getElementById("resultado").innerHTML = celsius + " celsius son " + prediccion + " fahrenheit!";
-        } else {
-          document.getElementById("resultado").innerHTML = "Intenta de nuevo en un momento...";
+          try {
+            // Crear tensor con el valor de celsius
+            var tensor = tf.tensor1d([parseFloat(celsius)]);
+            
+            // Hacer la predicción
+            var prediccion = modelo.predict(tensor).dataSync()[0];
+            
+            // Redondear a 1 decimal
+            prediccion = Math.round(prediccion * 10) / 10;
+            
+            // Mostrar resultado
+            document.getElementById("resultado").innerHTML = celsius + " grados celsius son " + prediccion + " grados fahrenheit";
+            document.getElementById("resultado").className = "";
+          } catch (error) {
+            console.error("Error en la predicción:", error);
+            document.getElementById("resultado").innerHTML = "Error en el cálculo. Intenta de nuevo.";
+          }
         }
       }
     </script>
