@@ -5,99 +5,248 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conversor Celsius a Fahrenheit</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
-            max-width: 600px;
-            margin: 50px auto;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
             text-align: center;
         }
+        
         h1 {
             color: #333;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+        
+        .subtitle {
+            color: #666;
             margin-bottom: 30px;
+            font-size: 0.9em;
         }
+        
         .slider-container {
-            margin: 30px 0;
+            margin: 25px 0;
         }
+        
         input[type="range"] {
             width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #e0e0e0;
+            outline: none;
             margin: 10px 0;
+            cursor: pointer;
+            -webkit-appearance: none;
         }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
         #resultado {
-            font-size: 1.5em;
+            font-size: 1.8em;
             font-weight: bold;
-            margin: 20px 0;
-            padding: 15px;
-            background-color: #f0f0f0;
-            border-radius: 8px;
-            min-height: 30px;
+            margin: 25px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            border: 2px solid #e9ecef;
         }
+        
         .loading {
-            color: #666;
+            color: #6c757d;
             font-style: italic;
         }
+        
         .error {
-            color: #d32f2f;
+            color: #dc3545;
+            background: #f8d7da;
+            border-color: #f5c6cb;
         }
+        
         .success {
-            color: #2e7d32;
+            color: #28a745;
+            background: #d4edda;
+            border-color: #c3e6cb;
         }
+        
         label {
-            font-weight: bold;
+            font-weight: 600;
             display: block;
             margin: 10px 0 5px;
+            color: #333;
+            font-size: 1.1em;
+        }
+        
+        .status {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        
+        .status.loading {
+            background: #ffc107;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .status.error {
+            background: #dc3545;
+        }
+        
+        .status.success {
+            background: #28a745;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .github-badge {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 0.85em;
+        }
+        
+        .github-badge a {
+            color: #0366d6;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .github-badge a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <h1>Conversor Celsius a Fahrenheit</h1>
-    
-    <div class="slider-container">
-        <label for="celsius">Grados Celsius: <span id="lbl-celsius">0</span></label>
-        <input type="range" id="celsius" min="-100" max="100" value="0" step="1" oninput="convertir()" disabled>
+    <div class="container">
+        <h1>🌡️ Conversor Celsius a Fahrenheit</h1>
+        <p class="subtitle">Modelo de IA entrenado con TensorFlow.js</p>
+        
+        <div class="slider-container">
+            <label for="celsius">
+                <span id="status-indicator" class="status loading"></span>
+                Grados Celsius: <span id="lbl-celsius">0</span>°C
+            </label>
+            <input type="range" id="celsius" min="-100" max="100" value="0" step="1" oninput="convertir()" disabled>
+        </div>
+        
+        <div id="resultado" class="loading">Cargando modelo de IA...</div>
+        
+        <div class="github-badge">
+            <a href="https://github.com/tu-usuario/tu-repositorio" target="_blank">
+                📝 Ver código en GitHub
+            </a>
+        </div>
     </div>
-    
-    <div id="resultado" class="loading">Cargando modelo...</div>
 
-    <!-- TensorFlow.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.16.0/dist/tf.min.js"></script>
+    <!-- TensorFlow.js v4.22.0 - Compatible con modelo Keras v3.10.0 -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
     
     <script>
         let modelo = null;
+        let modeloCargado = false;
 
         // Cargar el modelo al iniciar
         async function cargarModelo() {
+            const resultadoEl = document.getElementById('resultado');
+            const statusEl = document.getElementById('status-indicator');
+            const celsiusInput = document.getElementById('celsius');
+            
             try {
-                document.getElementById('resultado').textContent = 'Cargando modelo...';
-                document.getElementById('resultado').className = 'loading';
+                console.log('🚀 Iniciando carga del modelo...');
+                resultadoEl.textContent = 'Cargando modelo de IA...';
+                resultadoEl.className = 'loading';
+                statusEl.className = 'status loading';
                 
-                // Cargar modelo desde los archivos locales
+                // Cargar modelo desde GitHub Pages
+                // Usa './model.json' para rutas relativas en el mismo directorio
                 modelo = await tf.loadLayersModel('./model.json');
                 
-                document.getElementById('resultado').textContent = '0°C = 32°F';
-                document.getElementById('resultado').className = 'success';
-                document.getElementById('celsius').disabled = false;
+                console.log('✅ Modelo cargado exitosamente');
+                console.log('📊 Forma de entrada:', modelo.inputs[0].shape);
+                console.log('🧱 Arquitectura:', modelo.layers.length, 'capas');
                 
-                console.log('Modelo cargado exitosamente');
+                modeloCargado = true;
+                
+                resultadoEl.textContent = '0°C = 32°F';
+                resultadoEl.className = 'success';
+                statusEl.className = 'status success';
+                celsiusInput.disabled = false;
+                
+                // Calcular valor inicial
+                setTimeout(() => convertir(), 300);
                 
             } catch (error) {
-                console.error('Error al cargar el modelo:', error);
-                document.getElementById('resultado').innerHTML = 'Error al cargar el modelo.<br>Verifica que model.json y group1-shard1of1.bin estén en la misma carpeta.';
-                document.getElementById('resultado').className = 'error';
+                console.error('❌ Error al cargar el modelo:', error);
+                console.error('Mensaje:', error.message);
+                
+                resultadoEl.innerHTML = '❌ Error al cargar el modelo.<br>Verifica la consola para más detalles.';
+                resultadoEl.className = 'error';
+                statusEl.className = 'status error';
             }
         }
 
         // Función de conversión
         async function convertir() {
             const celsius = parseFloat(document.getElementById('celsius').value);
-            document.getElementById('lbl-celsius').textContent = celsius;
+            const lblCelsius = document.getElementById('lbl-celsius');
+            const resultadoEl = document.getElementById('resultado');
             
-            if (modelo) {
+            lblCelsius.textContent = celsius;
+            
+            if (modeloCargado && modelo) {
                 try {
-                    // Crear tensor 2D (batch, features)
+                    // Crear tensor con forma [1, 1] - compatible con batch_shape [null, 1]
                     const tensorEntrada = tf.tensor2d([[celsius]]);
                     
-                    // Predecir
+                    // Realizar predicción
                     const prediccion = modelo.predict(tensorEntrada);
                     
                     // Obtener valor numérico
@@ -105,23 +254,25 @@
                     const fahrenheit = Math.round(resultado[0] * 10) / 10;
                     
                     // Mostrar resultado
-                    document.getElementById('resultado').textContent = `${celsius}°C = ${fahrenheit}°F`;
-                    document.getElementById('resultado').className = 'success';
+                    resultadoEl.textContent = `${celsius}°C = ${fahrenheit}°F`;
+                    resultadoEl.className = 'success';
                     
-                    // Limpiar memoria
+                    // Limpiar memoria para evitar fugas
                     tensorEntrada.dispose();
                     prediccion.dispose();
                     
                 } catch (error) {
-                    console.error('Error en la predicción:', error);
-                    document.getElementById('resultado').textContent = 'Error en el cálculo';
-                    document.getElementById('resultado').className = 'error';
+                    console.error('❌ Error en la predicción:', error);
+                    resultadoEl.textContent = 'Error en el cálculo';
+                    resultadoEl.className = 'error';
                 }
             }
         }
 
-        // Iniciar carga del modelo
-        cargarModelo();
+        // Iniciar cuando la página esté lista
+        document.addEventListener('DOMContentLoaded', () => {
+            cargarModelo();
+        });
     </script>
 </body>
 </html>
