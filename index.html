@@ -23,151 +23,196 @@
         
         .container {
             background: white;
-            border-radius: 15px;
-            padding: 40px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            max-width: 500px;
+            border-radius: 20px;
+            padding: 50px 40px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            max-width: 550px;
             width: 100%;
             text-align: center;
         }
         
         h1 {
-            color: #333;
+            color: #2c3e50;
             margin-bottom: 10px;
-            font-size: 2em;
+            font-size: 2.3em;
+            font-weight: 700;
         }
         
         .subtitle {
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-bottom: 35px;
+            font-size: 1em;
+            line-height: 1.5;
         }
         
         .slider-container {
-            margin: 25px 0;
+            margin: 30px 0;
         }
         
         input[type="range"] {
             width: 100%;
-            height: 8px;
-            border-radius: 4px;
-            background: #e0e0e0;
+            height: 10px;
+            border-radius: 5px;
+            background: linear-gradient(90deg, #3498db 0%, #3498db 50%, #e0e0e0 50%, #e0e0e0 100%);
+            background-size: 200% 100%;
+            background-position: right;
             outline: none;
-            margin: 10px 0;
+            margin: 15px 0;
             cursor: pointer;
             -webkit-appearance: none;
+            transition: all 0.2s;
+        }
+        
+        input[type="range"]:hover {
+            transform: scale(1.02);
         }
         
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
-            background: #667eea;
+            background: #2980b9;
             cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+            border: 3px solid white;
+            transition: transform 0.2s;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.3);
+            background: #3498db;
         }
         
         input[type="range"]::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
-            background: #667eea;
+            background: #2980b9;
             cursor: pointer;
-            border: none;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: 3px solid white;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
         }
         
         #resultado {
-            font-size: 1.8em;
-            font-weight: bold;
-            margin: 25px 0;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            min-height: 60px;
+            font-size: 2.1em;
+            font-weight: 700;
+            margin: 35px 0;
+            padding: 30px;
+            background: #f8f9fc;
+            border-radius: 15px;
+            min-height: 80px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s;
-            border: 2px solid #e9ecef;
+            transition: all 0.4s ease;
+            border: 3px solid #e1e5eb;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.05);
         }
         
         .loading {
-            color: #6c757d;
+            color: #95a5a6;
             font-style: italic;
         }
         
         .error {
-            color: #dc3545;
-            background: #f8d7da;
-            border-color: #f5c6cb;
+            color: #e74c3c;
+            background: #fadbd8;
+            border-color: #f5b8b5;
+            animation: shake 0.5s;
         }
         
         .success {
-            color: #28a745;
-            background: #d4edda;
-            border-color: #c3e6cb;
+            color: #27ae60;
+            background: #d5f5e3;
+            border-color: #b8e6c9;
         }
         
         label {
-            font-weight: 600;
+            font-weight: 700;
             display: block;
-            margin: 10px 0 5px;
-            color: #333;
-            font-size: 1.1em;
+            margin: 12px 0 10px;
+            color: #2c3e50;
+            font-size: 1.15em;
         }
         
         .status {
             display: inline-block;
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
-            margin-right: 8px;
+            margin-right: 10px;
             vertical-align: middle;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
         
         .status.loading {
-            background: #ffc107;
+            background: #f39c12;
             animation: pulse 1.5s infinite;
         }
         
         .status.error {
-            background: #dc3545;
+            background: #e74c3c;
         }
         
         .status.success {
-            background: #28a745;
+            background: #27ae60;
         }
         
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
         }
         
-        .github-badge {
-            margin-top: 20px;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 8px;
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ecf0f1;
+            color: #95a5a6;
             font-size: 0.85em;
+            font-weight: 500;
         }
         
-        .github-badge a {
-            color: #0366d6;
+        .github-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: #3498db;
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 600;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: #f8f9fa;
+            transition: all 0.3s;
         }
         
-        .github-badge a:hover {
-            text-decoration: underline;
+        .github-link:hover {
+            background: #3498db;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 12px 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            text-align: left;
+            font-size: 0.9em;
+            color: #1565c0;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🌡️ Conversor Celsius a Fahrenheit</h1>
-        <p class="subtitle">Modelo de IA entrenado con TensorFlow.js</p>
+        <h1>🌡️ Celsius → Fahrenheit</h1>
+        <p class="subtitle">Conversión de temperatura usando inteligencia artificial</p>
         
         <div class="slider-container">
             <label for="celsius">
@@ -179,14 +224,17 @@
         
         <div id="resultado" class="loading">Cargando modelo de IA...</div>
         
-        <div class="github-badge">
-            <a href="https://github.com/tu-usuario/tu-repositorio" target="_blank">
-                📝 Ver código en GitHub
-            </a>
+        <div class="info-box">
+            <strong>💡 Fórmula:</strong> F = C × 9/5 + 32
         </div>
+        
+        <footer>
+            <p>Modelo entrenado con TensorFlow.js</p>
+            <a href="https://github.com" target="_blank" class="github-link">깃 Ver código en GitHub</a>
+        </footer>
     </div>
 
-    <!-- TensorFlow.js v4.22.0 - Compatible con modelo Keras v3.10.0 -->
+    <!-- TensorFlow.js v4.22.0 - Compatible con el modelo corregido -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
     
     <script>
@@ -201,17 +249,15 @@
             
             try {
                 console.log('🚀 Iniciando carga del modelo...');
-                resultadoEl.textContent = 'Cargando modelo de IA...';
+                resultadoEl.textContent = 'Cargando modelo de inteligencia artificial...';
                 resultadoEl.className = 'loading';
                 statusEl.className = 'status loading';
                 
-                // Cargar modelo desde GitHub Pages
-                // Usa './model.json' para rutas relativas en el mismo directorio
+                // Cargar modelo desde ruta relativa (funciona en GitHub Pages)
                 modelo = await tf.loadLayersModel('./model.json');
                 
                 console.log('✅ Modelo cargado exitosamente');
                 console.log('📊 Forma de entrada:', modelo.inputs[0].shape);
-                console.log('🧱 Arquitectura:', modelo.layers.length, 'capas');
                 
                 modeloCargado = true;
                 
@@ -227,7 +273,7 @@
                 console.error('❌ Error al cargar el modelo:', error);
                 console.error('Mensaje:', error.message);
                 
-                resultadoEl.innerHTML = '❌ Error al cargar el modelo.<br>Verifica la consola para más detalles.';
+                resultadoEl.innerHTML = '❌ Error al cargar el modelo.<br>Verifica la consola (F12) para más detalles.';
                 resultadoEl.className = 'error';
                 statusEl.className = 'status error';
             }
@@ -239,11 +285,12 @@
             const lblCelsius = document.getElementById('lbl-celsius');
             const resultadoEl = document.getElementById('resultado');
             
+            // Actualizar etiqueta
             lblCelsius.textContent = celsius;
             
             if (modeloCargado && modelo) {
                 try {
-                    // Crear tensor con forma [1, 1] - compatible con batch_shape [null, 1]
+                    // Crear tensor con forma [1, 1] - compatible con batchInputShape: [null, 1]
                     const tensorEntrada = tf.tensor2d([[celsius]]);
                     
                     // Realizar predicción
